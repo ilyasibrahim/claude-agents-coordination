@@ -1,84 +1,111 @@
 # Claude Code Agents Coordination
 
-A comprehensive guide to coordinating multiple Claude Code agents with institutional memory and efficient context management.
+**Multi-agent coordination system for Claude Code with institutional memory and efficient context management.**
 
-## Overview
+Stop your Claude Code agents from forgetting what they just did. This battle-tested architecture extends context windows from 15-20 minutes to 2+ hours while enabling multiple agents to coordinate seamlessly through persistent memory.
 
-This repository documents a real-world journey of building and optimizing a multi-agent system in Claude Code for a low-resource language NLP project. It showcases the evolution from 26 isolated agents consuming excessive context to an efficient 22-agent system with centralized coordination and persistent memory.
+---
 
-## The Problem
+## What This Does
 
-Working with Claude Code's multi-agent system presents several challenges:
+- **Extends Context Windows**: 2+ hours vs 15-20 minutes (8x improvement)
+- **Enables Agent Coordination**: Agents reference each other's work through a shared registry
+- **Reduces Overhead**: 67-73% smaller agent definitions through focused design
+- **Provides Institutional Memory**: Registry and reports persist knowledge across sessions
+- **Optimizes Context Loading**: Main agent loads once, distributes to specialized agents
+- **Uses Just-in-Time Skills**: Auto-invoke domain knowledge only when needed
 
-- **Context Amnesia**: Agents don't retain information between tasks
-- **Poor Coordination**: Agents work in isolation without referencing each other's work
-- **Context Consumption**: Inefficient designs can burn through context windows in 15-20 minutes
-- **Duplication**: Multiple agents performing overlapping work without awareness
-- **Report Sprawl**: Hundreds of lines of uncoordinated documentation
+## Quick Start
 
-## The Solution
+### 1. Install User-Level Configuration
 
-Through iterative experimentation, this repository presents a battle-tested architecture that:
-
-- ✅ Extends context windows from 15-20 minutes to 2+ hours
-- ✅ Reduces agent definition overhead by 67-73%
-- ✅ Implements institutional memory through registries and reports
-- ✅ Enables efficient agent coordination without redundant context loading
-- ✅ Leverages Claude Skills for just-in-time knowledge injection
-- ✅ Uses Slash Commands for high-frequency workflows
-
-## Architecture Evolution
-
-### Initial Attempt (26 Agents + Manual Coordination)
-- 26 specialized agents with verbose definitions (150-280 lines each)
-- Manual AGENT_MEMORY_POLICY.md checks (850+ lines, loaded multiple times)
-- Context exhaustion in 15-20 minutes
-- Heavy maintenance overhead
-
-### Failed Optimization (Sub-Agent Design)
-- Attempted to bypass main Claude agent with "coordinator" agents
-- Created nested sub-agents within agent definitions
-- Resulted in exponential context consumption
-- Every agent loaded everything, even worse performance
-
-### Final Architecture (22 Flat Agents + Centralized Coordination)
-- 22 specialized agents with focused definitions (25-52 lines each)
-- Centralized `agent-coordination` skill (370 lines, loaded once by main agent)
-- Registry-based institutional memory
-- Context windows extended to 2+ hours
-- Main Claude agent orchestrates, specialized agents execute
-
-## Repository Structure
-
-```
-claude-agents-coordination/
-├── README.md                    # This file
-├── LICENSE                      # MIT License
-│
-├── .claude-user/                # User-level configuration (~/.claude/)
-│   ├── INDEX.md                 # User-level configuration guide
-│   ├── agents/                  # 31 agent definitions (22 active + 9 deprecated)
-│   ├── commands/                # Slash commands for workflows
-│   └── skills/                  # Auto-invoked skills
-│
-└── .claude-project/             # Project-level configuration
-    ├── INDEX.md                 # Project-level configuration guide
-    ├── commands/                # Project-specific commands
-    ├── output-styles/           # Standardized output formats
-    ├── skills/                  # Project-specific skills
-    └── reports/                 # Institutional memory structure
-        ├── _registry.md         # Central registry of all work
-        ├── _TEMPLATE.md         # Report template
-        └── [subdirectories]/    # Categorized reports
+```bash
+git clone https://github.com/yourusername/claude-agents-coordination.git
+cd claude-agents-coordination
+cp -r claude-user ~/.claude
 ```
 
-## Key Components
+This gives you 22 specialized agents, 4 auto-invoked skills, and 7 slash commands available across all your projects.
 
-### User-Level Configuration (`.claude-user/`)
+### 2. Add Project-Level Configuration
 
-Contains globally applicable agents, skills, and commands:
+```bash
+# In your project directory
+cp -r claude-project/.claude .
+```
 
-**22 Active Agents** (organized by domain):
+This adds institutional memory (registry + reports), project-specific skills, and standardized output formats.
+
+### 3. Start Using
+
+```
+# Simple task
+"Use the debugger agent to investigate the timeout issue"
+
+# Coordinated multi-agent task
+"Mobilize agents to implement user analytics dashboard"
+
+# With slash commands
+/commit
+/review src/
+/test integration
+```
+
+## How It Works
+
+### Centralized Coordination
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│               Main Claude Code Agent                         │
+│            (Orchestrates everything)                         │
+│                                                              │
+│  1. User says "mobilize agents"                              │
+│  2. Loads agent-coordination skill (370 lines, once)         │
+│  3. Reads registry + relevant reports                        │
+│  4. Determines which agents to use                           │
+│  5. Invokes agents with context excerpts                     │
+│  6. Verifies deliverables                                    │
+│  7. Updates registry                                         │
+│  8. Reports results                                          │
+└──────────────────┬───────────────────────────────────────────┘
+                   │
+                   │ Distributes context
+                   ▼
+┌──────────────────────────────────────────────────────────────┐
+│         22 Specialized Agents (Flat Hierarchy)               │
+│                                                              │
+│  • Receive context from main agent                           │
+│  • Do specialized work                                       │
+│  • Return results                                            │
+│  • Never load protocol/registry themselves                   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Key Principle**: Main agent loads context once, specialized agents execute with excerpts. No redundant loading, maximum efficiency.
+
+### Institutional Memory
+
+The registry (`.claude/reports/_registry.md`) acts as persistent memory:
+
+```markdown
+## 2024-11-16 - backend-engineer - User Authentication Implementation
+- **Status**: Completed
+- **Deliverables**:
+  - implementation/auth-system.md
+  - review/auth-code-review.md
+  - tests/auth-test-report.md
+- **Context**: Implemented JWT-based auth with refresh tokens
+- **Follow-up**: Add OAuth integration in next phase
+```
+
+When agents start new tasks, the main agent reads this registry to provide context about prior work.
+
+## What's Included
+
+### User-Level Configuration (`claude-user/`)
+
+**22 Specialized Agents** organized by domain:
 - **Code Quality** (4): code-reviewer, debugger, test-runner, qa-engineer
 - **Architecture** (2): system-architect, pipeline-orchestrator
 - **Data** (4): data-collector, data-analyst, data-preprocessor, data-viz-specialist
@@ -88,192 +115,238 @@ Contains globally applicable agents, skills, and commands:
 - **ML** (4): ml-trainer, ml-evaluator, ml-deployer, lrl-nlp-expert
 - **UX** (2): ux-ui-designer, ux-writer
 
-**4 Core Skills**:
-- `agent-coordination`: 370-line coordination protocol (loaded once by main agent)
+**4 Auto-Invoked Skills**:
+- `agent-coordination` (370 lines): Coordination protocol with registry conventions
 - `design-system`: Dual-palette design system for dashboards
 - `style-guide`: Visual design philosophy and principles
 - `ux-writing`: Voice, tone, and messaging standards
 
 **7 Slash Commands**:
-- `/commit`, `/review`, `/test`, `/design-review`
-- `/ml:run` (ML pipeline orchestration)
-- `/data:analyze` (Dataset analysis)
-- `/deploy` (Deployment automation)
+- `/commit` (`/c`): Create commit with Conventional Commits format
+- `/review` (`/r`): Code quality review
+- `/test` (`/t`): Run test suite
+- `/design-review` (`/dr`): UI/UX review with Playwright
+- `/deploy` (`/d`): Deploy application
+- `/ml:run`: ML pipeline orchestration
+- `/data:analyze`: Dataset analysis
 
-### Project-Level Configuration (`.claude-project/`)
+### Project-Level Configuration (`claude-project/`)
 
-Project-specific customizations and institutional memory:
-
-**Skills**: Domain-specific knowledge modules
-- Data engineering standards and ETL patterns
-- ML techniques for low-resource languages
-- Model evaluation frameworks
-- Dashboard UI patterns and accessibility
-
-**Output Styles**: Standardized deliverable formats
-- Technical reports, code reviews, test reports
-- Commit messages, handoff documents
-
-**Reports**: Institutional memory organized by category
-- `_registry.md`: Central index of all agent work
-- Categorized subdirectories: analysis, arch, bugs, design, implementation, review, tests, etc.
-
-## How It Works
-
-### Coordination Flow
-
+**Institutional Memory Structure**:
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                    Main Claude Code Agent                        │
-│                 (User-facing, coordination)                      │
-│                                                                  │
-│  When user says "mobilize agents":                              │
-│  1. Invokes agent-coordination skill (370 lines, once)          │
-│  2. Reads project registry (.claude/reports/_registry.md)       │
-│  3. Reads relevant reports (context from past work)             │
-│  4. Determines which agents needed                              │
-│  5. Decides parallel vs sequential execution                    │
-│  6. Invokes agents with complete context                        │
-│  7. Verifies deliverables                                       │
-│  8. Synthesizes results                                         │
-│  9. Updates registry                                            │
-│  10. Reports to user                                            │
-└────────────────────────┬─────────────────────────────────────────┘
-                         │
-                         │ Provides complete context in task prompts
-                         │
-                         ▼
-┌──────────────────────────────────────────────────────────────────┐
-│              22 Specialized Task Agents (Flat)                   │
-│                                                                  │
-│  Each agent:                                                     │
-│    - Receives context from main agent                            │
-│    - Does specialized work                                       │
-│    - Returns output to main agent                                │
-│    - NEVER reads registry/reports directly                       │
-│    - NEVER invokes agent-coordination skill                      │
-└──────────────────────────────────────────────────────────────────┘
+.claude/reports/
+├── _registry.md          # Central index of all work
+├── _TEMPLATE.md          # Standard report template
+├── analysis/             # Data analysis reports
+├── arch/                 # Architecture decisions
+├── bugs/                 # Bug investigations
+├── design/               # UI/UX design reviews
+├── implementation/       # Feature implementations
+├── review/               # Code reviews
+├── tests/                # Test reports
+└── [other categories]/
 ```
 
-### Key Principles
+**Project-Specific Skills**: Domain knowledge modules (data engineering, ML, frontend patterns)
 
-1. **Centralized Coordination**: Main agent loads context once, distributes to specialized agents
-2. **Flat Agent Hierarchy**: No nested coordinators, all agents are peers
-3. **Context Efficiency**: Agents receive only what they need from main agent
-4. **Institutional Memory**: Registry tracks all work, reports preserve knowledge
-5. **Just-in-Time Skills**: Auto-invoke based on task context, not loaded preemptively
-6. **Standardized Workflows**: Slash commands for repetitive tasks
+**Output Styles**: Standardized formats for reports, reviews, commits, handoffs
 
 ## Usage Examples
 
-### Basic Task
+### Basic Agent Invocation
+
 ```
-User: "Fix the authentication bug in login.ts"
-→ Main agent analyzes issue
+User: "Fix the authentication timeout in login.ts"
+
+→ Main agent analyzes the issue
 → Invokes debugger agent with context
-→ Debugger returns fix
-→ Main agent verifies and reports
+→ Debugger investigates and returns findings
+→ Main agent verifies and reports back
 ```
 
-### Complex Multi-Agent Task
+### Multi-Agent Coordination
+
 ```
 User: "Mobilize agents to implement user analytics dashboard"
+
 → Main agent invokes agent-coordination skill
-→ Reads registry for related prior work
-→ Plans task: architect → frontend-engineer + backend-engineer → test-runner
+→ Reads registry for prior analytics work
+→ Plans: architect → frontend-engineer + backend-engineer → test-runner
 → Invokes agents sequentially with shared context
 → Each agent produces deliverables
-→ Main agent updates registry
-→ Reports completion with summary
+→ Updates registry with new work
+→ Reports summary to user
 ```
 
-### With Slash Command
+### With Slash Commands
+
 ```
-User: "/review src/dashboard/"
-→ Expands to code review workflow
-→ Main agent invokes code-reviewer
-→ Standardized review report generated
+/review src/dashboard/
+→ Launches code-reviewer agent
+→ Reviews all files in src/dashboard/
+→ Generates standardized code review report
+
+/ml:run experiment-v2
+→ Orchestrates full ML pipeline
+→ Data collection → preprocessing → training → evaluation → deployment
+→ Tracks metrics and updates registry
 ```
 
-## Lessons Learned
+## Performance Comparison
 
-### ✅ What Worked
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Context window duration | 15-20 min | 2+ hours | **8x** |
+| Agent definition size | 150-280 lines | 25-52 lines | **73% reduction** |
+| Protocol loading | Per agent | Once (main only) | **N×** fewer loads |
+| Coordination | Manual/broken | Automatic | **Seamless** |
+| Memory persistence | None | Registry-based | **Full history** |
 
-1. **Flat agent hierarchy**: Simpler than nested coordinators, less context overhead
-2. **Centralized coordination**: Main agent as orchestrator eliminates redundant context loading
-3. **Compressed definitions**: 25-50 line agents vs 150-280 lines, 67-73% reduction
-4. **Registry-based memory**: Simple, effective institutional memory
-5. **Auto-invoke skills**: Load knowledge only when needed
+## Architecture Highlights
 
-### ❌ What Didn't Work
+### Flat Agent Hierarchy
+No nested coordinators or sub-agents. All 22 agents are peers, orchestrated by main agent.
 
-1. **Bypassing main agent**: Attempted "agent autonomy" resulted in worse context consumption
-2. **Sub-agent nesting**: Nested agents within agent definitions confused Claude Code
-3. **Verbose protocols**: 850-line AGENT_MEMORY_POLICY loaded multiple times
-4. **Manual verification**: Agents reading reports instead of using bash checks
-5. **Too many coordinators**: 3 orchestrators with overlapping responsibilities
+**Why**: Nested designs cause exponential context consumption. Flat structure is simple and efficient.
 
-### 💡 Key Insights
+### Context Efficiency
+- Main agent loads agent-coordination skill: 370 lines (once)
+- Main agent reads registry + reports: ~500-2000 lines (selective)
+- Specialized agents: Receive excerpts only, never load full context
 
-- **Validate architecture before optimizing**: Building on wrong foundation wastes effort
-- **Understand tool constraints**: Claude Code has specific expectations, work with them
-- **Context is king**: Every line loaded matters, optimize ruthlessly
-- **Simplicity scales**: Flat structures outperform nested complexity
-- **Main agent is essential**: Trying to bypass it creates more problems than it solves
+**Why**: Prevents redundant loading. 5 agents × 3000 lines each = 15,000 lines wasted. Now: 3000 lines loaded once.
 
-## Performance Metrics
+### Registry-Based Memory
+Simple markdown files tracking all agent work with links to deliverables.
 
-| Metric | Initial | Failed Optimization | Final |
-|--------|---------|-------------------|-------|
-| Agent count | 26 | 8 coordinators + 23 subs | 22 flat |
-| Avg agent size | 150-280 lines | N/A | 25-52 lines |
-| Protocol size | 850 lines | 280 lines | 370 lines (loaded once) |
-| Context window | 15-20 min | <15 min | 2+ hours |
-| Redundant loading | Yes (per agent) | Yes (worse) | No (main only) |
+**Why**: Easy to read, easy to update, works with Claude's strengths (reading markdown).
 
-## Getting Started
+### Just-in-Time Skills
+Skills auto-invoke based on keywords in task descriptions.
 
-1. **Copy user-level config**:
-   ```bash
-   cp -r .claude-user ~/.claude
-   ```
+**Why**: Load domain knowledge only when relevant, not preemptively.
 
-2. **Copy project-level config**:
-   ```bash
-   cp -r .claude-project your-project/.claude
-   ```
+## Key Principles
 
-3. **Customize for your needs**:
-   - Edit agent definitions in `~/.claude/agents/`
-   - Add project-specific skills in `your-project/.claude/skills/`
-   - Modify commands and output styles as needed
+1. **Main agent orchestrates, specialized agents execute**
+   Don't bypass the main agent—work with Claude Code's design.
 
-4. **Start using**:
-   ```
-   "Mobilize agents to [task]"
-   /commit
-   /review src/
-   ```
+2. **Load context once, distribute excerpts**
+   Centralized loading prevents exponential context waste.
 
-## Related Work
+3. **Flat hierarchy beats nested complexity**
+   Simple structures scale better than clever architectures.
 
-This architecture was developed for the [Somali Dialect Classifier](https://github.com/yourusername/somali-dialect-classifier) project, a low-resource language NLP initiative.
+4. **Registry is source of truth**
+   All work gets recorded, all new work checks the registry first.
+
+5. **Every line matters**
+   Ruthlessly optimize agent definitions and protocols.
+
+## Repository Structure
+
+```
+claude-agents-coordination/
+├── README.md              # You are here
+├── LICENSE                # Unlicense (public domain)
+│
+├── claude-user/           # User-level configuration (~/.claude/)
+│   ├── INDEX.md           # Detailed user-level guide
+│   ├── agents/            # 22 agent definitions
+│   ├── commands/          # 7 slash commands
+│   └── skills/            # 4 auto-invoked skills
+│
+└── claude-project/        # Project-level configuration
+    ├── INDEX.md           # Detailed project-level guide
+    ├── commands/          # Project-specific commands
+    ├── output-styles/     # Standardized output formats
+    ├── skills/            # Project-specific skills
+    └── reports/           # Registry + categorized reports
+```
+
+## Documentation
+
+- **[claude-user/INDEX.md](claude-user/INDEX.md)**: Complete guide to user-level configuration
+- **[claude-project/INDEX.md](claude-project/INDEX.md)**: Complete guide to project-level configuration
+
+## Customization
+
+### Add New Agents
+
+Create `~/.claude/agents/my-agent.md`:
+```markdown
+# My Agent
+
+Specializes in [specific task].
+
+## Primary Responsibilities
+- Task 1
+- Task 2
+
+## Available Tools
+Read, Write, Bash, Grep
+
+## Usage
+Invoke when [specific condition].
+```
+
+Keep it focused: 25-50 lines recommended.
+
+### Add New Skills
+
+Create `~/.claude/skills/my-skill/SKILL.md`:
+```markdown
+# My Skill
+
+Auto-invokes when user mentions: [trigger words]
+
+## Purpose
+Provide [specific knowledge]
+
+## Key Concepts
+[Domain knowledge here]
+```
+
+### Add Slash Commands
+
+Create `~/.claude/commands/my-command.md`:
+```markdown
+Launch [agent-name] to [do specific task]
+
+[Detailed instructions for the agent]
+```
+
+Use: `/my-command [arguments]`
+
+## Real-World Usage
+
+This system was developed for the [Somali Dialect Classifier](https://github.com/yourusername/somali-dialect-classifier) project, a low-resource language NLP initiative. It enabled:
+
+- Coordinated data collection from 5+ sources
+- Quality-controlled preprocessing pipeline
+- ML experimentation with persistent metrics
+- Dashboard development with consistent design
+- All while maintaining context across 2+ hour sessions
 
 ## Contributing
 
-This repository serves as documentation of a working system. Feel free to:
-- Fork and adapt to your projects
+This serves as documentation of a working system. You're encouraged to:
+
+- Fork and adapt for your projects
 - Open issues to discuss improvements
-- Share your own agent coordination patterns
+- Share your own coordination patterns
+- Submit PRs with enhancements
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
+This is free and unencumbered software released into the public domain. See [LICENSE](LICENSE) for details.
 
-## Acknowledgments
+Use it however you want. No attribution required (though appreciated).
 
-Built through trial, error, and systematic iteration with Claude Code. Special thanks to the Anthropic team for creating a tool powerful enough to enable this level of customization.
+## Why This Exists
+
+I learn by doing—build it, break it, learn from mistakes. I tried to make Claude Code agents coordinate efficiently, failed twice, and finally found something that works. This repository shares the working solution so you don't have to make the same mistakes.
 
 ---
 
-**Remember**: Efficiency gains built on unstable foundations are illusory. Validate your architecture before optimizing, and understand your tool's constraints before designing around them.
+**Built through systematic iteration.** If you found this useful, star the repo and share your own experiences with Claude Code agent coordination.

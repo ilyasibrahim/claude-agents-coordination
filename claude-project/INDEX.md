@@ -5,7 +5,7 @@ This directory contains project-specific Claude Code configuration that extends 
 ## Directory Structure
 
 ```
-.claude-project/
+claude-project/
 ├── commands/          # Project-specific slash commands
 ├── output-styles/     # Standardized output formats
 ├── skills/            # Project-specific skills
@@ -169,7 +169,7 @@ Pending items and future work.
 ### 1. Copy Project Configuration
 ```bash
 # Copy this directory to your project
-cp -r .claude-project your-project/.claude
+cp -r claude-project your-project/.claude
 ```
 
 ### 2. Initialize Registry
@@ -365,7 +365,7 @@ Main Agent:
 ## Related Documentation
 
 - [Main README](../README.md): Full architecture explanation
-- [User-Level Index](../.claude-user/INDEX.md): Global configuration guide
+- [User-Level Index](../claude-user/INDEX.md): Global configuration guide
 - [Claude Code Documentation](https://code.claude.com/docs): Official docs
 
 ---

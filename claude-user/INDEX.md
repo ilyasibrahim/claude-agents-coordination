@@ -5,7 +5,7 @@ This directory contains globally applicable Claude Code configuration that works
 ## Directory Structure
 
 ```
-.claude-user/
+claude-user/
 ├── agents/         # 31 agent definitions (22 active, 9 deprecated)
 ├── commands/       # 7 slash commands for common workflows
 └── skills/         # 4 auto-invoked skills
@@ -110,7 +110,7 @@ This directory contains globally applicable Claude Code configuration that works
 
 ```bash
 # Copy entire directory to user-level .claude
-cp -r .claude-user ~/.claude
+cp -r claude-user ~/.claude
 ```
 
 ### Invoking Agents
@@ -263,9 +263,9 @@ Main Claude Agent
 ## Related Documentation
 
 - [Main README](../README.md): Full architecture explanation and lessons learned
-- [Project-Level Index](../.claude-project/INDEX.md): Project-specific configuration guide
+- [Project-Level Index](../claude-project/INDEX.md): Project-specific configuration guide
 - [Claude Code Documentation](https://code.claude.com/docs): Official Claude Code docs
 
 ---
 
-**Key Principle**: This user-level configuration provides globally applicable agents, skills, and commands. Project-specific customizations go in `.claude-project/` at the project level.
+**Key Principle**: This user-level configuration provides globally applicable agents, skills, and commands. Project-specific customizations go in `claude-project/` at the project level.
