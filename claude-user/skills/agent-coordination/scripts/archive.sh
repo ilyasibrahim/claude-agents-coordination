@@ -26,8 +26,8 @@ fi
 echo "Archiving entries older than $THRESHOLD ($DAYS days)"
 echo "---"
 
-# Create archive directories if needed
-mkdir -p "$ARCHIVE_DIR"/{analysis,arch,bugs,design,impl,review,tests,handoff}
+# Create archive directories if needed (keep in sync with user-level report taxonomy)
+mkdir -p "$ARCHIVE_DIR"/{analysis,arch,bugs,commits,design,exec,handoff,implementation,review,tests,security,sre,rfc,ci}
 
 # Initialize archive registry if needed
 if [ ! -f "$ARCHIVE_REGISTRY" ]; then
@@ -61,6 +61,7 @@ find "$REPORTS_DIR" -maxdepth 2 -name "*.md" -type f ! -path "*/archive/*" ! -na
             category=$(dirname "$file" | xargs basename)
 
             # Move to archive
+            mkdir -p "$ARCHIVE_DIR/$category"
             mv "$file" "$ARCHIVE_DIR/$category/"
             echo -e "${GREEN}[ARCHIVED]${NC} $filename → archive/$category/"
 
