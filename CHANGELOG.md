@@ -4,7 +4,7 @@ All notable changes to this project will be documented here.
 
 ## Unreleased
 
-## v2.0.0 (planned)
+## v2.0.0 - 2025-12-28
 
 - Tiered agent architecture (orchestrators → specialists → on-demand experts)
 - Two-registry model: `_registry.md` (work done) + `_tech-debt.md` (deferred items)
@@ -15,4 +15,3 @@ All notable changes to this project will be documented here.
 ## v1.0.0
 
 - Initial “flat” multi-agent coordination setup with institutional memory
-
