@@ -1,225 +1,214 @@
-# Release Notes: v2.1.0
+# Release v2.1.0: Dated Archive Registry Snapshots
 
-**Release Date:** December 28, 2025
-**Type:** Minor Release (Feature Enhancement)
+**Released**: December 28, 2025
 
----
+## Overview
 
-## 🎯 Overview
+Archive system enhancement replacing bash implementation with Python-based dated registry snapshots. This release addresses sustainable archive management for long-running projects by preventing unbounded archive file growth while maintaining complete historical records.
 
-Version 2.1.0 introduces a production-grade archive system with **dated registry snapshots**, replacing the previous single-file append-only approach. This enhancement ensures sustainable registry management as projects grow, preventing unbounded archive file growth while maintaining complete historical records.
-
-**Key Improvement:** Archive registries now use dated snapshots (`_registry-archive-20251228.md`) instead of a single growing file, matching the temporal snapshot pattern used in professional version control systems.
+**Upgrade from v2.0.0**: Python archive script, dated temporal snapshots, full automation, enhanced documentation.
 
 ---
 
-## ✨ What's New
+## What's New
 
-### 1. Python-Based Archive Script
+### Python-Based Archive Script
 
-**Replaced:** `archive.sh` (80-line bash script)
-**With:** `archive_reports.py` (220-line Python script)
+Replaced `archive.sh` (80-line bash script) with `archive_reports.py` (220-line Python implementation).
 
-**New Capabilities:**
-- ✅ Full registry parsing (extracts date, status, category from registry entries)
-- ✅ Automatic registry updates (both active and archive)
-- ✅ Dated archive snapshots (e.g., `_registry-archive-20251228.md`)
-- ✅ Dry-run mode (`--dry-run` flag for preview)
-- ✅ Status tracking (marks entries as "Archived" in archive registry)
-- ✅ Robust filename handling (works with any format, not just `*-YYYYMMDD.md`)
+**New Capabilities**:
+- Full registry parsing (extracts date, status, category from registry entries)
+- Automatic registry updates (both active and archive)
+- Dated archive snapshots (`_registry-archive-YYYYMMDD.md`)
+- Dry-run mode (`--dry-run` flag for safe preview)
+- Status tracking (marks entries as "Archived")
+- Robust filename handling (works with any format, not just `*-YYYYMMDD.md`)
 
-**Usage:**
+**Usage**:
 ```bash
-# Archive reports older than 7 days (default)
+# Default: archive reports older than 7 days
 python ~/.claude/skills/agent-coordination/scripts/archive_reports.py
 
-# Custom threshold
+# Custom threshold (14 days)
 python ~/.claude/skills/agent-coordination/scripts/archive_reports.py 14
 
 # Preview mode (dry run)
 python ~/.claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run
 ```
 
----
+### Dated Archive Registries
 
-### 2. Dated Archive Registries
-
-**Before (v2.0.0):**
+**Before (v2.0.0)**:
 ```
 .claude/reports/archive/
-└── _registry-archive.md    # Single file, grows forever
+└── _registry-archive.md    # Single file, grows unbounded
 ```
 
-**After (v2.1.0):**
+**After (v2.1.0)**:
 ```
 .claude/reports/archive/
 ├── _registry-archive-20251201.md  # December 1 snapshot
 ├── _registry-archive-20251208.md  # December 8 snapshot
 ├── _registry-archive-20251215.md  # December 15 snapshot
-└── _registry-archive-20251228.md  # December 28 snapshot (today)
+└── _registry-archive-20251228.md  # December 28 snapshot
 ```
 
-**Benefits:**
-- 📅 **Temporal snapshots:** Each archive run preserved as a dated record
-- 🔍 **Historical tracking:** See exactly what was archived when
-- 📊 **Prevent bloat:** No single file grows unbounded
-- 🔄 **Professional pattern:** Matches industry-standard snapshot approaches
+**Benefits**:
+- Temporal snapshots preserve exact state at archive time
+- Historical tracking shows what was archived when
+- Bounded growth per snapshot (no single file grows indefinitely)
+- Industry-standard pattern (follows git tag / release snapshot approach)
 
----
-
-### 3. Archive README
+### Archive Documentation
 
 New `archive/README.md` provides:
-- Complete archive directory structure documentation
+- Complete directory structure documentation
 - Table of dated registries with metadata
-- Search examples for finding archived reports
+- Search patterns for finding archived reports
 - Usage guide with all archiving options
-- Notes on dated snapshot benefits
+- Migration guidance from v2.0.0
 
-**Location:** `.claude/reports/archive/README.md`
+**Location**: `.claude/reports/archive/README.md`
 
----
+### Full Automation
 
-### 4. Full Automation
+**Before (v2.0.0)**: Manual steps required
+1. Run `archive.sh` to move files
+2. Manually update active registry to remove archived entries
+3. Manually append to archive registry
+4. Manually change entry status to "Archived"
 
-**Before:** Manual steps required after archiving
-1. ❌ Move files
-2. ❌ Update active registry manually
-3. ❌ Append to archive registry manually
-4. ❌ Change entry status manually
-
-**After:** Fully automated in one command
-1. ✅ Move files
-2. ✅ Update active registry automatically
-3. ✅ Create dated archive registry automatically
-4. ✅ Change entry status automatically
-
----
-
-## 📋 Changes from v2.0.0
-
-### Added
-- `archive_reports.py` - Python script with full registry parsing
-- Dated archive registries (`_registry-archive-YYYYMMDD.md`)
-- Archive README with navigation and usage guide
-- Dry-run mode for safe preview
-- Automatic status tracking ("Archived" status)
-
-### Changed
-- Archive process creates dated snapshots (not single file)
-- Script now fully automated (no manual cleanup required)
-- Robustness improved (parses registry, not filenames)
-- Documentation enhanced in `reference.md`
-
-### Removed
-- `archive.sh` - Old bash implementation
-- Manual registry cleanup steps
-- Dependency on filename date format
+**After (v2.1.0)**: Single automated command
+1. Parse active registry entries
+2. Move files to archive categories
+3. Update active registry (remove archived entries)
+4. Create dated archive registry
+5. Set status to "Archived" in archive registry
 
 ---
 
-## 🔧 Technical Details
+## Breaking Changes from v2.0.0
 
-### Archive Process Flow
+**None**. Fully backward compatible.
 
-**v2.0.0 (Old):**
-```
-Run archive.sh
-  ↓
-Move files based on filename dates
-  ↓
-Print: "Next steps: manually update registry"
-  ↓
-❌ STOPS - User must manually clean registry
+### Migration Path
+
+For existing projects with `_registry-archive.md`:
+
+```bash
+cd .claude/reports/archive
+mv _registry-archive.md _registry-archive-$(date +%Y%m%d).md
 ```
 
-**v2.1.0 (New):**
-```
-Run archive_reports.py
-  ↓
-Parse active registry entries
-  ↓
-Move files + Update active registry + Create dated archive registry
-  ↓
-✅ DONE - Fully automated
-```
-
-### Registry Parsing
-
-The Python script parses registry entries to extract:
-```markdown
-| [report-name](path/to/report.md) | 2025-11-15 | Complete | Summary |
-  ↑                                   ↑           ↑          ↑
-  filename                            date        status     description
-```
-
-This allows archiving based on **entry date** (not filename), making it robust to any naming convention.
+All future archive runs will use dated format automatically.
 
 ---
 
-## 🎓 Migration from v2.0.0
+## Performance Comparison
 
-### For Existing Users
-
-1. **Update global configuration:**
-   ```bash
-   cd ~/.claude/skills/agent-coordination/scripts
-   rm archive.sh
-   # Copy archive_reports.py from repo
-   ```
-
-2. **Update project archives:**
-   ```bash
-   cd .claude/reports/archive
-   # Rename existing archive registry with date
-   mv _registry-archive.md _registry-archive-20251228.md
-   ```
-
-3. **Test with dry run:**
-   ```bash
-   python ~/.claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run
-   ```
-
-### For New Projects
-
-The project template (`claude-project/`) already includes:
-- Dated archive registry example
-- Archive README
-- Full documentation
-
-Simply copy the template - no additional setup needed.
+| Feature | v2.0.0 (Bash) | v2.1.0 (Python) | Change |
+|---------|---------------|-----------------|--------|
+| **Registry Format** | Single `_registry-archive.md` | Dated `_registry-archive-YYYYMMDD.md` | **Temporal snapshots** |
+| **Registry Parsing** | None (filename-based) | Full parsing (registry-based) | **Robust** |
+| **Auto-Update** | Manual cleanup required | Fully automated | **Zero manual steps** |
+| **Status Tracking** | No | Yes ("Archived" status) | **Audit trail** |
+| **Dry Run** | No | Yes (`--dry-run`) | **Safe preview** |
+| **Robustness** | Filename dates only | Registry dates (any filename) | **Format-agnostic** |
+| **Documentation** | Minimal | Comprehensive | **Reference docs** |
+| **Archive History** | Lost (single file) | Preserved (snapshots) | **Full history** |
+| **Growth Pattern** | Unbounded | Bounded per snapshot | **Sustainable** |
 
 ---
 
-## 📊 Comparison Matrix
+## Installation
 
-| Feature | v2.0.0 (Bash) | v2.1.0 (Python) |
-|---------|---------------|-----------------|
-| **Registry Format** | Single `_registry-archive.md` | Dated `_registry-archive-YYYYMMDD.md` |
-| **Registry Parsing** | ❌ None | ✅ Full parsing |
-| **Auto-Update** | ❌ Manual | ✅ Automatic |
-| **Status Tracking** | ❌ No | ✅ Yes ("Archived") |
-| **Dry Run** | ❌ No | ✅ Yes (`--dry-run`) |
-| **Robustness** | Filename dates only | Registry dates (any filename) |
-| **Documentation** | Minimal | Complete (`reference.md`) |
-| **Archive History** | Lost (single file) | Preserved (dated snapshots) |
-| **Growth Pattern** | Unbounded | Bounded per snapshot |
+### Fresh Installation (v2.1.0)
+
+```bash
+git clone https://github.com/ilyasibrahim/claude-agents-coordination.git
+cd claude-agents-coordination
+git checkout v2.1.0
+
+# User-level config
+mkdir -p ~/.claude
+rsync -a claude-user/ ~/.claude/
+
+# Project-level config (in your project)
+mkdir -p .claude
+rsync -a claude-project/ .claude/
+```
+
+### Upgrade from v2.0.0
+
+```bash
+cd claude-agents-coordination
+git fetch
+git checkout v2.1.0
+
+# Update user-level scripts
+cp claude-user/skills/agent-coordination/scripts/archive_reports.py \
+   ~/.claude/skills/agent-coordination/scripts/
+
+# Remove old bash script
+rm ~/.claude/skills/agent-coordination/scripts/archive.sh
+
+# Update documentation files
+cp claude-user/skills/agent-coordination/SKILL.md ~/.claude/skills/agent-coordination/
+cp claude-user/skills/agent-coordination/reference.md ~/.claude/skills/agent-coordination/
+cp claude-user/commands/archive.md ~/.claude/commands/
+
+# Migrate existing project archives (optional)
+cd .claude/reports/archive
+if [ -f "_registry-archive.md" ]; then
+    mv _registry-archive.md _registry-archive-$(date +%Y%m%d).md
+fi
+```
 
 ---
 
-## 🚀 Use Cases
+## What's Included
+
+```
+claude-agents-coordination/
+├── CHANGELOG.md                    # v2.1.0 entry added
+├── RELEASE_NOTES_v2.1.0.md        # This file
+│
+├── claude-user/
+│   ├── commands/
+│   │   └── archive.md             # Updated for Python script
+│   └── skills/agent-coordination/
+│       ├── SKILL.md               # References archive_reports.py
+│       ├── reference.md           # Archive documentation added
+│       └── scripts/
+│           ├── archive_reports.py # New Python implementation
+│           └── verify.sh          # Unchanged
+│
+└── claude-project/
+    └── reports/
+        └── archive/
+            ├── README.md                        # New documentation
+            └── _registry-archive-20251216.md    # Dated format example
+```
+
+---
+
+## Use Cases
 
 ### Weekly Cleanup
 
+Run every Friday to archive reports older than 7 days:
+
 ```bash
-# Run every Friday to archive reports older than 7 days
 python ~/.claude/skills/agent-coordination/scripts/archive_reports.py
 ```
 
+**Result**: Active registry stays clean (<50 entries), dated snapshot created.
+
 ### Registry Maintenance
 
+Automated check before starting work:
+
 ```bash
-# When registry exceeds 50 entries
 ENTRIES=$(grep -c "^| \[.*\]" .claude/reports/_registry.md)
 if [ "$ENTRIES" -gt 50 ]; then
     python ~/.claude/skills/agent-coordination/scripts/archive_reports.py
@@ -228,118 +217,171 @@ fi
 
 ### Pre-Release Cleanup
 
+Archive older reports before major version release:
+
 ```bash
-# Before starting major work, archive old reports
 python ~/.claude/skills/agent-coordination/scripts/archive_reports.py 14
+```
+
+### Audit Trail
+
+Find what was archived on specific date:
+
+```bash
+cat .claude/reports/archive/_registry-archive-20251228.md
 ```
 
 ---
 
-## 📚 Documentation Updates
+## Real-World Validation
 
-### Updated Files
+Developed for the **Somali Dialect Classifier** project during transition from v2.0.0 to production ingestion phase:
 
-1. **`SKILL.md`** - Line 196: References `archive_reports.py`
-2. **`reference.md`** - Lines 7-40: Complete archive documentation
-3. **`archive.md`** (command) - Full update for Python script and dated registries
-4. **`archive/README.md`** - New comprehensive guide
+**Requirements**:
+- Registry growing beyond 50 entries (48 reports archived in first run)
+- Need for sustainable archive management (no unbounded growth)
+- Historical tracking of archived work (audit compliance)
+- Zero manual steps (full automation required)
 
-### Key Documentation Sections
-
-- **Usage examples:** Default, custom threshold, dry-run
-- **How it works:** 5-step automated process
-- **When to run:** Weekly, >50 entries, pre-major work
-- **Archive structure:** Complete directory tree with dated registries
-- **Search examples:** Finding archived reports by date/category/name
-
----
-
-## ✅ Quality Assurance
-
-### Testing
-
-All changes verified through:
-- ✅ Dry-run mode testing (preview without moving)
-- ✅ Real archive execution (48 reports successfully archived)
-- ✅ Registry parsing validation (correct date extraction)
-- ✅ Cross-platform compatibility (macOS tested)
-- ✅ Documentation completeness (all files updated)
-
-### Backward Compatibility
-
-**Breaking Changes:** None
-
-**Migration Path:**
-- Old `_registry-archive.md` can be renamed to dated format
-- Old `archive.sh` can be deleted (replaced by Python script)
-- No code changes required in projects using the system
+**Results**:
+- Active registry reduced from 225 lines to 177 lines
+- 48 reports archived successfully in first run
+- Dated snapshot (`_registry-archive-20251228.md`) created
+- Zero manual cleanup required
+- Archive history fully preserved
 
 ---
 
-## 🎯 Impact
+## Technical Details
 
-### Benefits
+### Archive Process Flow
 
-- **Sustainability:** Dated snapshots prevent unbounded archive growth
-- **Transparency:** Each archive run preserved for audit trail
-- **Automation:** Zero manual steps required
-- **Flexibility:** Works with any filename format
-- **Reliability:** Full registry parsing eliminates edge cases
+**v2.0.0 (Bash)**:
+```
+Run archive.sh
+  ↓
+Find files with YYYYMMDD in filename
+  ↓
+Compare file dates to threshold
+  ↓
+Move files to archive categories
+  ↓
+Print: "Next steps: manually update registry"
+  ↓
+STOPS (manual cleanup required)
+```
 
-### Metrics
+**v2.1.0 (Python)**:
+```
+Run archive_reports.py
+  ↓
+Parse active registry entries (extract date, status, category)
+  ↓
+Filter entries older than threshold
+  ↓
+Move files to archive categories
+  ↓
+Update active registry (remove archived entries)
+  ↓
+Create dated archive registry (YYYYMMDD format)
+  ↓
+Set status to "Archived" in archive registry
+  ↓
+COMPLETE (fully automated)
+```
 
-- **Code Quality:** +175% (80 lines → 220 lines with full features)
-- **Automation:** 0% → 100% (manual → fully automated)
-- **Robustness:** Filename-dependent → Registry-based (any format)
-- **Documentation:** Minimal → Comprehensive (4 files updated)
+### Registry Parsing
 
----
+The Python script extracts structured data from registry markdown:
 
-## 🔗 Resources
+```markdown
+| [report-name](path/to/report.md) | 2025-11-15 | Complete | Summary |
+  ↑                                   ↑           ↑          ↑
+  filename                            date        status     description
+```
 
-- **Repository:** https://github.com/ilyasibrahim/claude-agents-coordination
-- **Changelog:** [CHANGELOG.md](CHANGELOG.md)
-- **v2.0.0 Release:** https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v2.0.0
-- **v1.0.0 Release:** https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v1.0.0
-
----
-
-## 💡 Next Steps
-
-### For Users
-
-1. **Update your installation:**
-   - Copy `archive_reports.py` to `~/.claude/skills/agent-coordination/scripts/`
-   - Delete old `archive.sh`
-
-2. **Test the new system:**
-   ```bash
-   python ~/.claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run
-   ```
-
-3. **Migrate existing archives:**
-   ```bash
-   cd .claude/reports/archive
-   mv _registry-archive.md _registry-archive-$(date +%Y%m%d).md
-   ```
-
-### For Contributors
-
-- Review updated documentation in `reference.md`
-- Test Python script with various registry formats
-- Report any issues or edge cases
+This allows archiving based on **entry date** (from registry) rather than **filename date**, making it format-agnostic.
 
 ---
 
-## 📝 Acknowledgments
+## Documentation
 
-This release addresses feedback on archive sustainability and automation, making the system production-ready for long-running projects with extensive history.
+**Updated Files**:
+- `claude-user/skills/agent-coordination/SKILL.md` — Line 196: References `archive_reports.py`
+- `claude-user/skills/agent-coordination/reference.md` — Lines 7-40: Archive documentation section
+- `claude-user/commands/archive.md` — Complete rewrite for Python script
+- `claude-project/reports/archive/README.md` — New comprehensive guide
+
+**Key Sections**:
+- Usage examples (default, custom threshold, dry-run)
+- How it works (5-step automated process)
+- When to run (weekly, >50 entries, pre-release)
+- Archive structure (directory tree with dated registries)
+- Search patterns (finding archived reports)
 
 ---
 
-**Version:** 2.1.0
-**Release Type:** Minor (Feature Enhancement)
-**Breaking Changes:** None
-**Recommended Action:** Update at your convenience
+## Migration from v2.0.0
 
-**Download:** https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v2.1.0
+### What Still Works
+- Four-step coordination protocol unchanged
+- Registry structure unchanged (`_registry.md`, `_tech-debt.md`)
+- All slash commands work identically
+- Archive directory structure unchanged (only registry format updated)
+
+### What Changed
+- Archive script: `archive.sh` → `archive_reports.py`
+- Archive registry: Single file → Dated snapshots
+- Automation: Manual cleanup → Fully automated
+- Robustness: Filename-based → Registry-based
+
+### Migration Checklist
+1. Update user-level scripts (copy `archive_reports.py`, remove `archive.sh`)
+2. Update documentation files (`SKILL.md`, `reference.md`, `archive.md`)
+3. Migrate existing project archives (rename `_registry-archive.md` with date)
+4. Test with dry run (`--dry-run` flag)
+5. Verify archive creation on next run
+
+---
+
+## Key Principles (Updated for v2.1.0)
+
+1. **Temporal snapshots over append-only** — Each archive run preserved as dated record
+2. **Automation over manual steps** — Zero manual cleanup required
+3. **Registry-based over filename-based** — Parse registry for dates, not filenames
+4. **Bounded growth over unbounded** — Snapshots prevent single file growth
+5. **Historical preservation** — Complete audit trail of all archives
+
+---
+
+## Contributing
+
+This repository documents a working production system. Contributions welcome:
+
+- **Issues**: Report bugs, request enhancements, suggest improvements
+- **Pull Requests**: Archive improvements, documentation enhancements
+- **Discussions**: Share archive patterns, edge cases, alternative approaches
+
+---
+
+## License
+
+This is free and unencumbered software released into the public domain (Unlicense).
+
+Use it however you want. No attribution required (though appreciated).
+
+See [LICENSE](LICENSE) for full text.
+
+---
+
+## Acknowledgments
+
+Built through iterative refinement on real production needs:
+- v2.0.0: Bash archive script (worked but required manual cleanup)
+- v2.1.0: Python dated snapshots (fully automated and sustainable)
+
+**This release shares the working solution** so others can manage growing registries sustainably without manual intervention.
+
+---
+
+**Questions?** Open an issue or reach out via [Medium](https://medium.com/@ilyas.ibrahim).
