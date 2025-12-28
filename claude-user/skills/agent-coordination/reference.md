@@ -1,6 +1,42 @@
 # Agent Coordination Reference
 
-Load this file for detailed verification, retry logic, and edge cases.
+Load this file for detailed verification, archiving, retry logic, and edge cases.
+
+---
+
+## Archive Details
+
+### archive_reports.py Usage
+
+```bash
+# Script location: .claude/skills/agent-coordination/scripts/archive_reports.py
+
+# Basic archiving (default: 7 days)
+python .claude/skills/agent-coordination/scripts/archive_reports.py
+
+# Custom threshold (14 days)
+python .claude/skills/agent-coordination/scripts/archive_reports.py 14
+
+# Dry run (preview without moving)
+python .claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run
+```
+
+**How it works:**
+1. Parses active registry entries (by date in registry, not filename)
+2. Moves files older than threshold to `.claude/reports/archive/[category]/`
+3. Creates dated archive registry: `_registry-archive-YYYYMMDD.md`
+4. Updates active registry (removes archived entries)
+5. Changes status to "Archived" in archive registry
+
+**Output:**
+- Dated archive: `.claude/reports/archive/_registry-archive-YYYYMMDD.md`
+- Moved files: `.claude/reports/archive/[category]/[filename].md`
+- Updated active registry: `.claude/reports/_registry.md`
+
+**When to run:**
+- Registry exceeds 50 entries
+- Weekly cleanup
+- Before starting major work (clean context)
 
 ---
 

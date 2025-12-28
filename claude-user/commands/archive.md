@@ -14,11 +14,12 @@ REGISTRY="$REPORTS_DIR/_registry.md"
 
 ## Process
 
-1. **Scan registry** for entries older than threshold (default: 7 days)
-2. **Move entries** to `.claude/reports/archive/_registry-archive.md`
-3. **Move reports** to `.claude/reports/archive/[category]/`
-4. **Update status** of moved entries to "Archived"
-5. **Report** what was archived
+1. **Parse active registry** for entries older than threshold (default: 7 days)
+2. **Move report files** to `.claude/reports/archive/[category]/`
+3. **Create dated archive registry** `.claude/reports/archive/_registry-archive-YYYYMMDD.md`
+4. **Update active registry** (remove archived entries)
+5. **Set status** of archived entries to "Archived" in dated registry
+6. **Report summary** with archive date and file count
 
 ## Arguments
 
@@ -31,27 +32,32 @@ REGISTRY="$REPORTS_DIR/_registry.md"
 
 ```
 .claude/reports/archive/
-├── _registry-archive.md    # Archived registry entries
-├── analysis/               # Old analysis reports
-├── arch/                   # Old architecture reports
-├── bugs/                   # Old bug reports
-├── design/                 # Old design reports
-├── impl/                   # Old implementation reports
-├── review/                 # Old review reports
-└── tests/                  # Old test reports
+├── _registry-archive-YYYYMMDD.md  # Dated archive registries (snapshots)
+├── README.md                      # Archive index and documentation
+├── analysis/                      # Old analysis reports
+├── arch/                          # Old architecture reports
+├── bugs/                          # Old bug reports
+├── design/                        # Old design reports
+├── implementation/                # Old implementation reports
+├── exec/                          # Old execution reports
+├── handoff/                       # Old handoff reports
+├── review/                        # Old review reports
+├── security/                      # Old security reports
+└── tests/                         # Old test reports
 ```
 
 ## Execution
 
-Uses the archive script bundled with the agent-coordination skill:
+Uses the Python archive script bundled with the agent-coordination skill:
 
 ```bash
 # Script location (per Claude Code skill structure)
-.claude/skills/agent-coordination/scripts/archive.sh [days]
+python .claude/skills/agent-coordination/scripts/archive_reports.py [days]
 
 # Examples
-.claude/skills/agent-coordination/scripts/archive.sh      # Default: 7 days
-.claude/skills/agent-coordination/scripts/archive.sh 14   # 14 days
+python .claude/skills/agent-coordination/scripts/archive_reports.py     # Default: 7 days
+python .claude/skills/agent-coordination/scripts/archive_reports.py 14  # 14 days
+python .claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run  # Preview only
 ```
 
 ## When to Run
@@ -62,7 +68,10 @@ Uses the archive script bundled with the agent-coordination skill:
 
 ## Notes
 
-- Archived reports remain accessible in archive folder
-- Registry archive maintains full history
-- Can be reversed by moving entries back
-- Does NOT delete anything - only moves
+- **Dated snapshots:** Each archive run creates a new `_registry-archive-YYYYMMDD.md`
+- **No appending:** Archive registries are never appended to - each is a snapshot in time
+- **Full automation:** Updates both active and archive registries automatically
+- **Archived reports** remain accessible in archive folder by category
+- **Reversible:** Can be reversed by moving entries back
+- **No deletion:** Does NOT delete anything - only moves
+- **Archive history:** Track all past archives via dated registry files

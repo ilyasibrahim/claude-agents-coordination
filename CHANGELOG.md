@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2025-12-28
+
+### Added
+- Python-based archive script (`archive_reports.py`) replacing bash implementation
+- Dated archive registries (`_registry-archive-YYYYMMDD.md`) as temporal snapshots
+- Archive README.md for documentation and navigation
+- Full registry parsing and automated updating
+- Dry-run mode for preview before archiving (`--dry-run` flag)
+
+### Changed
+- Archive process now creates dated registry snapshots instead of single append-only file
+- Archive script now fully automated (updates both active and archive registries)
+- Archive status tracking (automatically marks entries as "Archived")
+- Improved robustness (parses registry dates instead of relying on filenames)
+
+### Improved
+- Archive organization with dated snapshots prevents unbounded growth
+- Better archive history tracking (each archive run preserved as snapshot)
+- Enhanced documentation in `reference.md` with complete usage examples
+- Project template updated with dated registry example
+
+### Fixed
+- Manual registry cleanup no longer required after archiving
+- Archive process now works with any filename format (not just *-YYYYMMDD.md)
+
 ## [2.0.0] - 2025-12-28
 
 ### Added
@@ -91,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Eliminated per-agent protocol loading (N× reduction in redundant context loading)
 - Enabled automatic agent coordination through registry-based memory
 
-[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v1.0.0

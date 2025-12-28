@@ -188,12 +188,12 @@ Tech debt entries are created when:
 
 ```
 skills/agent-coordination/
-├── SKILL.md          # This file
-├── templates.md      # Report templates
-├── reference.md      # Verification details, retry logic
+├── SKILL.md              # This file
+├── templates.md          # Report templates
+├── reference.md          # Verification details, retry logic
 └── scripts/
-    ├── verify.sh     # Deliverable verification
-    └── archive.sh    # Registry archiving
+    ├── verify.sh         # Deliverable verification
+    └── archive_reports.py # Registry archiving (dated snapshots)
 ```
 
 ---
