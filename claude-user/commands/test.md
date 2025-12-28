@@ -1,90 +1,29 @@
 ---
-description: Run tests with test-runner agent
+description: Run tests with test-engineer agent
 allowed-tools: Bash(pytest:*, npm:test*)
 argument-hint: [test suite]
 ---
 
 # Run Tests
 
-Execute test suite and report results.
-
 ## Process
 
-1. **Determine Test Scope**
-   - If argument provided: Run specific test suite
-   - If no argument: Run full test suite
-
-2. **Execute Tests**
-   - Python: `pytest [path] -v`
-   - JavaScript: `npm test [pattern]`
-   - Display results in real-time
-
-3. **Report Results**
-   - Total tests run
-   - Passed/Failed/Skipped
-   - Failure details
-   - Coverage metrics (if available)
-
-4. **Create Test Report**
-   - Save to `.claude/reports/tests/`
-   - Include: timestamp, results, failures, recommendations
+1. **Scope:** Argument → specific suite | None → full test suite
+2. **Execute:** Python (`pytest`) or JavaScript (`npm test`)
+3. **Report:** Results + coverage in `.claude/reports/tests/`
 
 ## Arguments
 
-- **$1**: Optional test suite specifier
-  - `unit` - Run unit tests only
-  - `integration` - Run integration tests
-  - `e2e` - Run end-to-end tests
-  - Specific file/pattern
-  - If omitted: Run all tests
+- `unit` - Unit tests only
+- `integration` - Integration tests
+- `e2e` - End-to-end tests
+- `[path]` - Specific file/pattern
+- None - Full suite
 
 ## Examples
 
 ```bash
-# Run all tests
-/test
-
-# Run unit tests only
-/test unit
-
-# Run integration tests
-/test integration
-
-# Run specific test file
-/test tests/test_model.py
+/test                      # All tests
+/test unit                 # Unit tests
+/test tests/test_api.py    # Specific file
 ```
-
-## Test Commands by Type
-
-**Python (pytest):**
-```bash
-# All tests
-pytest
-
-# Unit tests
-pytest tests/unit/
-
-# Integration tests
-pytest tests/integration/
-
-# With coverage
-pytest --cov=src --cov-report=html
-```
-
-**JavaScript (Jest/Vitest):**
-```bash
-# All tests
-npm test
-
-# Watch mode
-npm test -- --watch
-
-# Coverage
-npm test -- --coverage
-```
-
-## Notes
-
-- Fails if any tests fail
-- Generates coverage report if configured
-- Creates test report in reports directory

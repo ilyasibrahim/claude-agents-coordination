@@ -1,11 +1,20 @@
 ---
-description: Orchestrate full ML pipeline run (data → train → deploy)
+description: Orchestrate full ML pipeline run (data → train → evaluate → deploy)
 argument-hint: [experiment-name]
 ---
 
 # ML Pipeline Run
 
-Coordinate end-to-end ML workflow: data preparation → training → evaluation → deployment.
+Coordinate end-to-end ML workflow following user-level agent-coordination protocol.
+
+## Workflow
+
+Follows user-level agent-coordination protocol:
+
+1. **Check Registry** - Look for prior ML runs, baseline metrics
+2. **Context Injection** - Provide prior experiment results to agents
+3. **Sequential Execution** - Data → Train → Evaluate (with verification)
+4. **Update Registries** - Add report to `_registry.md`, tech debt if issues found
 
 ## Process
 
@@ -14,30 +23,29 @@ Coordinate end-to-end ML workflow: data preparation → training → evaluation 
    - Generate experiment ID
    - Log configuration
 
-2. **Data Stage**
-   - Invoke data-engineer to prepare/validate dataset
-   - Check data quality metrics
-   - Confirm data readiness
+2. **Data Stage** (data-analyst agent)
+   - Validate dataset quality (invokes data-quality-standards)
+   - Check data readiness
+   - Report data issues to tech debt if found
 
-3. **Training Stage**
-   - Invoke ml-orchestrator for model training
+3. **Training Stage** (ml-trainer agent)
+   - Train model (invokes lrl-nlp-techniques for Somali-specific guidance)
    - Track training metrics
    - Save model checkpoints
 
-4. **Evaluation Stage**
-   - Invoke ml-evaluator for performance assessment
-   - Generate evaluation report
+4. **Evaluation Stage** (ml-evaluator agent)
+   - Assess model performance
    - Compare to baseline/production
+   - Generate evaluation report
 
 5. **Deployment Decision**
-   - If metrics meet threshold → Deploy
-   - If metrics below threshold → Report and stop
+   - If metrics meet threshold → Proceed to deploy
+   - If metrics below threshold → Report and document tech debt
    - Create deployment report
 
-6. **Update Registry**
-   - Log experiment results
-   - Update model registry
-   - Create handoff for monitoring
+6. **Update Registries**
+   - Add to `_registry.md`: experiment summary
+   - Add to `_tech-debt.md`: any deferred improvements
 
 ## Arguments
 
@@ -49,13 +57,13 @@ Coordinate end-to-end ML workflow: data preparation → training → evaluation 
 
 ```bash
 # Run with auto-generated name
-/ml-run
+/ml/run
 
 # Run with specific experiment name
-/ml-run xlm-r-fine-tune-v2
+/ml/run xlm-r-fine-tune-v2
 
 # Run with experiment description
-/ml-run "test-augmented-training-data"
+/ml/run "test-augmented-training-data"
 ```
 
 ## Configuration
@@ -87,13 +95,29 @@ deployment:
 
 ## Output
 
+**Report Location:** `.claude/reports/implementation/impl-ml-run-[experiment]-YYYYMMDD.md`
+
+**Artifacts:**
 - Experiment directory: `experiments/exp_[timestamp]/`
 - Training logs: `experiments/exp_[timestamp]/logs/`
 - Model artifacts: `experiments/exp_[timestamp]/model/`
-- Evaluation report: `.claude/reports/implementation/ml-run-[date].md`
 
-## Notes
+## Skills Invoked
 
-- Runs lrl-nlp-techniques skill automatically (Somali-specific guidance)
-- Creates comprehensive experiment report
-- Updates model registry if deployment occurs
+- `lrl-nlp-techniques` - Somali-specific NLP guidance
+- `data-quality-standards` - Data validation before training
+- `mlops-best-practices` - Training/deployment patterns
+
+## Registry Updates
+
+After completion, add to `.claude/reports/_registry.md`:
+```
+- impl-ml-run-[experiment]-YYYYMMDD | Complete | [metrics summary]
+```
+
+If issues found, add to `.claude/reports/_tech-debt.md`:
+```
+- [ ] **TD-NNN**: [Issue description]
+  - **Impact:** [Priority]
+  - **Source:** impl-ml-run-[experiment]-YYYYMMDD.md
+```

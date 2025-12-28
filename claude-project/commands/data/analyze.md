@@ -1,12 +1,21 @@
 ---
-description: Analyze dataset with data-analyst agent
+description: Analyze dataset with data-analyst agent (project-specific EDA)
 allowed-tools: Bash(python:*), Bash(jupyter:*)
 argument-hint: [file path]
 ---
 
 # Data Analysis
 
-Perform exploratory data analysis (EDA) on dataset using data-analyst agent.
+Perform exploratory data analysis (EDA) on dataset.
+
+## Workflow
+
+Follows user-level agent-coordination protocol:
+
+1. **Check Registry** - Look for prior analysis reports
+2. **Context Injection** - Provide relevant prior work to agent
+3. **Execute Analysis** - Run EDA with data-analyst agent
+4. **Update Registry** - Add report to `_registry.md`
 
 ## Process
 
@@ -21,13 +30,13 @@ Perform exploratory data analysis (EDA) on dataset using data-analyst agent.
    - Data type distribution
    - Basic statistics (mean, median, std)
 
-3. **Quality Analysis**
+3. **Quality Analysis** (invokes data-quality-standards skill)
    - Duplicate detection
    - Language purity check (for text data)
    - Quality score distribution
    - Outlier identification
 
-4. **Content Analysis** (for Somali dialect data)
+4. **Content Analysis** (Somali dialect specific)
    - Dialect distribution (Northern/Southern/Central)
    - Text length distribution
    - Vocabulary analysis
@@ -67,14 +76,12 @@ Perform exploratory data analysis (EDA) on dataset using data-analyst agent.
 
 ## Output
 
+**Report Location:** `.claude/reports/analysis/analysis-[topic]-YYYYMMDD.md`
+
 **Console:**
 - Quick statistics
 - Key insights
 - Quality metrics
-
-**Report:**
-- Saved to `.claude/reports/analysis/data-analysis-[date].md`
-- Includes: summary, statistics, visualizations, recommendations
 
 **Artifacts:**
 - Charts: `data/analysis/charts/`
@@ -100,9 +107,15 @@ Perform exploratory data analysis (EDA) on dataset using data-analyst agent.
 - Average quality score
 - Text length statistics
 
-## Notes
+## Skills Invoked
 
-- Invokes data-quality-standards skill automatically
-- Uses etl-patterns skill for data loading
-- Creates visualizations using matplotlib/seaborn
-- Report follows agent-coordination
+- `data-quality-standards` - Quality validation rules
+- `etl-patterns` - Data loading patterns
+- `lrl-nlp-techniques` - Low-resource NLP context (if dialect analysis)
+
+## Registry Update
+
+After completion, add to `.claude/reports/_registry.md`:
+```
+- analysis-[topic]-YYYYMMDD | Complete | [1-line summary]
+```

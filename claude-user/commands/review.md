@@ -1,62 +1,26 @@
 ---
-description: Review code quality with code-quality agent
+description: Code review with code-quality agent (mode: review)
 allowed-tools: Bash(git:*)
 argument-hint: [path]
 ---
 
 # Code Review
 
-Launch code-quality agent to review code for quality, best practices, potential bugs, and improvements.
-
 ## Process
 
-1. **Determine Scope**
-   - If path provided: Review specific file/directory
-   - If no path: Review recent changes (git diff)
-
-2. **Gather Context**
-   - Run `git diff` to see uncommitted changes
-   - Run `git log -5 --oneline` to see recent commits
-   - Identify files to review
-
-3. **Launch Code Quality Agent**
-   - Invoke code-quality agent with scope
-   - Agent will perform comprehensive review:
-     - Correctness & logic
-     - Security vulnerabilities
-     - Performance & efficiency
-     - Code quality & maintainability
-     - Best practices
-     - Documentation
-
-4. **Report Findings**
-   - Critical issues (must fix)
-   - Suggestions for improvement
-   - Positive observations
-   - Questions/clarifications
+1. **Scope:** Path provided → specific file/dir | None → recent changes (`git diff`)
+2. **Launch:** code-quality agent with mode: review
+3. **Output:** Review report in `.claude/reports/review/`
 
 ## Arguments
 
-- **$1**: Optional path to review
-  - File: `src/pipeline/etl.py`
-  - Directory: `src/models/`
-  - If omitted: Review recent changes
+- `$ARGUMENTS`: Optional path (file or directory)
+- If omitted: review uncommitted changes
 
 ## Examples
 
 ```bash
-# Review recent uncommitted changes
-/review
-
-# Review specific file
-/review src/models/model.py
-
-# Review entire directory
-/review src/pipeline/
+/review                    # Recent changes
+/review src/models/        # Specific directory
+/review src/api/routes.py  # Specific file
 ```
-
-## Notes
-
-- Creates review report in `.claude/reports/review/`
-- Automatically checks agent memory protocol
-- Reviews follow project coding standards
