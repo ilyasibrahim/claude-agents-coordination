@@ -12,7 +12,7 @@ Three critical problems in Claude Code agent usage:
 2. **Coordination Chaos**: Multiple agents overwrite each other's work
 3. **Delegation Limits**: Manual oversight required for every decision
 
-**Solution**: A tiered delegation architecture with persistent memory (registry + tech-debt tracking) that extends productive context windows to 2+ hours while enabling agents to make engineering judgments autonomously.
+**Solution**: A tiered delegation architecture with persistent memory (registry + tech-debt tracking) that extends productive context windows to 2+ hours while enabling the Main Agent to consistently apply documented engineering criteria.
 
 ---
 
@@ -128,7 +128,7 @@ L4: Reliability Review (sre agent)
     ↓ Triggers: Infrastructure changes, deployment configs, perf-critical paths
 ```
 
-**Why**: Escalation happens automatically based on code characteristics, not manual judgment.
+**Why**: Main Agent applies documented escalation criteria by reading code, ensuring consistent decisions without relying on memory.
 
 ### Local CI Pipeline
 
@@ -244,7 +244,7 @@ claude-agents-coordination/
 | Protocol token cost | 370 lines (always loaded) | 150-250 lines (selective) | **40-60% reduction** |
 | Review depth | Single-level | Multi-level (L1→L4) | **Graduated escalation** |
 | Tech-debt visibility | None | Explicit tracking | **Prevents silent decay** |
-| Delegation capability | Task execution only | Engineering judgment | **Autonomous decisions** |
+| Delegation capability | Task execution only | Documented criteria | **Consistent application** |
 
 ---
 
@@ -322,7 +322,7 @@ This system was developed for the **Somali Dialect Classifier** project—a low-
 
 **Results**:
 - 2+ hour productive sessions without context loss
-- Agents autonomously escalated security/architecture reviews
+- Main Agent consistently applied documented criteria to escalate security/architecture reviews
 - Tech-debt registry prevented quality degradation
 - 40% reduction in protocol overhead through optimization
 

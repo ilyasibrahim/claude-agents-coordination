@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2025-12-29
+
+### Fixed
+- Corrected inaccurate language in README.md that implied autonomous agent behavior
+- Documentation now accurately describes Main Agent orchestration following documented protocols
+
+### Changed
+- Updated README.md: "Main Agent applies documented criteria" instead of "agents make autonomous decisions"
+- Clarified system value comes from documented criteria consistently applied, not autonomous behavior
+
 ## [2.1.0] - 2025-12-28
 
 ### Added
@@ -116,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Eliminated per-agent protocol loading (N× reduction in redundant context loading)
 - Enabled automatic agent coordination through registry-based memory
 
-[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...HEAD
+[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v1.0.0
