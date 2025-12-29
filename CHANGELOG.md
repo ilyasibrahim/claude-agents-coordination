@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2025-12-29
+
+### Changed
+- Updated `/review-full` L2 architecture review trigger threshold from >500 lines to >200 lines for better precision
+- Enhanced review trigger criteria with more explicit conditions for L2, L3, and L4 reviews
+- Expanded `review-full.md` with comprehensive protocol documentation including pre-review analysis and decision flowchart
+
+### Added
+- Database queries to L3 security review trigger criteria
+- Command-line flags support for `/review-full`: `--quick`, `--security`, `--all`
+- Pre-review analysis section with file size and git diff statistics
+- Post-review verification steps and registry update protocol
+- Decision flowchart visualization for review level selection
+
+### Improved
+- Review trigger criteria now more accurately reflect real-world engineering judgment needs
+- Better alignment between documented escalation criteria and actual code characteristics
+
 ## [2.1.1] - 2025-12-29
 
 ### Fixed
@@ -54,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `_tech-debt.md` for explicit tracking of deferred improvements and shortcuts
 - Multi-level review chain (`/review-full`) with automatic escalation:
   - L1: Peer review (always runs)
-  - L2: Architecture review (triggered by API changes, schema changes, >500 lines)
+  - L2: Architecture review (triggered by API changes, schema changes, >200 lines)
   - L3: Security review (triggered by auth/authz, user input, external APIs, crypto)
   - L4: Reliability review (triggered by infrastructure, deployment, performance-critical paths)
 - Standard workflow commands:
@@ -126,7 +144,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Eliminated per-agent protocol loading (N× reduction in redundant context loading)
 - Enabled automatic agent coordination through registry-based memory
 
-[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.1...HEAD
+[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v1.0.0...v2.0.0

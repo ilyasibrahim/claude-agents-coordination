@@ -121,11 +121,11 @@ The `/review-full` command implements graduated review escalation:
 L1: Peer Review (code-quality agent)
     ↓ Triggers: Always runs
 L2: Architecture Review (architect agent)
-    ↓ Triggers: New APIs, schema changes, >500 lines, new dependencies
+    ↓ Triggers: >200 lines, new APIs, schema changes, new modules
 L3: Security Review (security-engineer agent)
-    ↓ Triggers: Auth/authz, user input, external APIs, crypto
+    ↓ Triggers: Auth/authz, user input, external APIs, database queries, crypto
 L4: Reliability Review (sre agent)
-    ↓ Triggers: Infrastructure changes, deployment configs, perf-critical paths
+    ↓ Triggers: Infrastructure, service dependencies, error handling, caching
 ```
 
 **Why**: Main Agent applies documented escalation criteria by reading code, ensuring consistent decisions without relying on memory.
