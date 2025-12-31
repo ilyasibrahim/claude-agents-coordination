@@ -3,6 +3,7 @@ name: backend
 description: Backend APIs, database operations, and server-side integrations. Design and implement REST/GraphQL APIs, database schemas, authentication/authorization, external service integrations, and performance optimizations.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, KillShell, NotebookEdit, TodoWrite, WebFetch
 model: sonnet
+color: green
 ---
 
 Backend engineering specialist.

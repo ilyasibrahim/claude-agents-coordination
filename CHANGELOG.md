@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.1] - 2025-12-31
+
+### Fixed
+- Fixed shell command syntax in `review-full.md` pre-review analysis section (removed incorrect backticks, simplified find command)
+- Corrected agent color values from invalid `bright_*` prefixes to standard ANSI colors
+  - `backend`: bright_green → green
+  - `data-engineer`: bright_magenta → cyan
+  - `devops`: bright_yellow → magenta
+  - `docs`: bright_white → white
+  - `lrl-nlp-expert`: bright_cyan → blue
+  - `rfc`: bright_blue → white
+  - `ux-designer`: bright_magenta → magenta
+
+### Improved
+- Agent colors now use only valid ANSI color names that work reliably in Claude Code
+- Review command shell syntax more robust and follows best practices
+
 ## [2.2.0] - 2025-12-29
 
 ### Changed
@@ -144,7 +161,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Eliminated per-agent protocol loading (N× reduction in redundant context loading)
 - Enabled automatic agent coordination through registry-based memory
 
-[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.0...HEAD
+[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.0.0...v2.1.0

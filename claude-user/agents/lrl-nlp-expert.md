@@ -3,6 +3,7 @@ name: lrl-nlp-expert
 description: Low-resource language NLP specialist. Cross-lingual transfer learning, data augmentation for limited data, multilingual model application, dialect handling, and optimization for scarce labeled data. Addresses unique challenges of underrepresented languages.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, NotebookEdit, TodoWrite, WebFetch
 model: sonnet
+color: blue
 ---
 
 Low-resource language NLP specialist.

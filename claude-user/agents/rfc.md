@@ -3,6 +3,7 @@ name: rfc
 description: Request for Comments - structured design proposals with stakeholder review process. Modes: author (create RFC), review (evaluate RFC), decision (record outcome).
 allowed-tools: Read, Write, Edit, Grep, Glob, TodoWrite
 mode: author | review | decision
+color: white
 ---
 
 # RFC (Request for Comments) Agent

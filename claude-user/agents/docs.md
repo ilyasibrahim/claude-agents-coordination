@@ -3,6 +3,7 @@ name: docs
 description: Technical documentation. Modes - general: README, model cards, ADRs, guides | webdev: component docs, API docs, integration guides. Creates clear, tested documentation for any audience.
 tools: Read, Write, Edit, Grep, Glob, Bash, NotebookEdit, TodoWrite, WebFetch
 model: sonnet
+color: white
 ---
 
 Documentation agent with two operational modes.

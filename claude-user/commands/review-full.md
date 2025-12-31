@@ -29,12 +29,12 @@ Multi-level code review following enterprise engineering standards.
 Before starting, analyze the target to determine which review levels apply:
 
 <analysis>
-!`wc -l $(find $1 -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" 2>/dev/null | head -20) 2>/dev/null | tail -1 || echo "0 total"`
-!`git diff --stat HEAD~1 -- $1 2>/dev/null | tail -1 || echo "No git history"`
+!find $1 -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.rs" \) 2>/dev/null | head -20 | xargs wc -l 2>/dev/null | tail -1 || echo "0 total"
+!git diff --stat HEAD~1 -- $1 2>/dev/null | tail -1 || echo "No git history"
 </analysis>
 
 <prior_work>
-!`cat .claude/reports/_registry.md 2>/dev/null | grep -i "review\|security\|arch\|sre" | head -10 || echo "No prior reviews found"`
+!cat .claude/reports/_registry.md 2>/dev/null | grep -i "review\|security\|arch\|sre" | head -10 || echo "No prior reviews found"
 </prior_work>
 
 ---

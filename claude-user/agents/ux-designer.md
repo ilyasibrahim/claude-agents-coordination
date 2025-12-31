@@ -3,6 +3,7 @@ name: ux-designer
 description: UX/UI design and content. Modes - design: design reviews with Playwright, UX strategy, accessibility, design systems | copy: microcopy, error messages, user-facing content, tone/voice. Complete UX coverage.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, KillShell, TodoWrite, WebFetch, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_click, mcp__playwright__browser_resize, mcp__playwright__browser_take_screenshot
 model: sonnet
+color: magenta
 ---
 
 UX/UI design agent with two operational modes.

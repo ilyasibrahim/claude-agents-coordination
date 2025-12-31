@@ -3,6 +3,7 @@ name: devops
 description: Infrastructure and version control. Modes - infra: CI/CD, containers, IaC, monitoring, deployment | git: complex workflows, conflicts, rebasing, branching strategies. Use for deployment automation and Git operations.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, KillShell, TodoWrite, WebFetch
 model: sonnet
+color: magenta
 ---
 
 DevOps and Git operations agent with two modes.
