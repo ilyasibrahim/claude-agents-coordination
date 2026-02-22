@@ -176,7 +176,7 @@ This repository maintains stable release versions to support documentation and a
   - Foundational 4-step protocol implementation
   - Proved agent coordination viability
 
-- **[v2.0.0](https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v2.0.0)** — Tiered delegation system (current)
+- **[v2.0.0](https://github.com/ilyasibrahim/claude-agents-coordination/releases/tag/v2.0.0)** — Tiered delegation system (current: v2.2.1)
   - Production-grade delegation with multi-level review chains
   - Dual-registry model (work done + tech debt)
   - Protocol optimization for token efficiency
