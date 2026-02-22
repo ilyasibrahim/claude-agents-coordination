@@ -198,10 +198,10 @@ This system is documented through a three-part series on Medium:
    - Deep dive into the coordination protocol
    - Registry-based institutional memory
 
-3. **Scaling Claude Code: From Solo Testing to Enterprise-Grade Delegation** *(Part 3 - Coming Soon)*
+3. **[How to Build Production-Grade Systems with Claude Code](https://medium.com/@ilyas.ibrahim/how-to-build-production-grade-systems-with-claude-code-87f73dd311b9)**
    - Tiered delegation architecture
    - Multi-level review chains
-   - Production deployment lessons
+   - Dual-registry model and workflow automation
 
 **In-repo documentation**:
 - `claude-user/INDEX.md` — User-level configuration guide
