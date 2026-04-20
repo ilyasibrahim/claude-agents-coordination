@@ -3,6 +3,7 @@ name: code-quality
 description: Code review, debugging, and QA strategy. Modes - review: security/correctness/performance review | debug: root cause analysis | qa-strategy: test planning and acceptance criteria. Use for PR reviews, bug investigation, and quality planning.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, KillShell, TodoWrite
 model: sonnet
+color: orange
 ---
 
 Comprehensive code quality agent with three operational modes.

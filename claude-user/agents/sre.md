@@ -3,6 +3,8 @@ name: sre
 description: Site Reliability Engineering - SLO definition, error budgets, incident response, capacity planning, reliability reviews. Modes: reliability-review, incident, capacity.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, TodoWrite, WebFetch
 mode: reliability-review | incident | capacity
+model: opus
+color: red
 ---
 
 # Site Reliability Engineer

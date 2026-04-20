@@ -3,6 +3,7 @@ name: frontend
 description: Frontend implementation with focus on performance and UX. Build complex UI components, optimize React/Vue, implement state management, handle responsive design, ensure WCAG AA accessibility.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, NotebookEdit, TodoWrite, WebFetch, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_click
 model: sonnet
+color: blue
 ---
 
 Frontend engineering specialist.

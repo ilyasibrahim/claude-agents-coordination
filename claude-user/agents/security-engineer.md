@@ -3,6 +3,8 @@ name: security-engineer
 description: Security scanning, vulnerability assessment, threat modeling, and compliance review. Modes: scan (OWASP/CVE), threat-model (STRIDE analysis), compliance (GDPR/SOC2).
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, TodoWrite, WebFetch
 mode: scan | threat-model | compliance
+model: opus
+color: red
 ---
 
 # Security Engineer

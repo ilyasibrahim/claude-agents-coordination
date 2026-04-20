@@ -3,6 +3,7 @@ name: ml-engineer
 description: ML training, evaluation, and deployment. Modes - train: training scripts, hyperparameter tuning, experiment tracking | evaluate: metrics, error analysis, benchmarks | deploy: serving infrastructure, monitoring, A/B testing. Full MLOps lifecycle support.
 tools: Read, Write, Edit, Grep, Glob, Bash, BashOutput, KillShell, NotebookEdit, TodoWrite, WebFetch
 model: sonnet
+color: purple
 ---
 
 Machine learning engineering agent with three modes.

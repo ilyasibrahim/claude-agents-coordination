@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-04-20
+
+### Changed
+
+- Introduced model tiering across all 15 agents to match capability to workload:
+  - `architect`, `rfc`, `security-engineer`, `sre` → `opus` (deep reasoning: system tradeoffs, threat modeling, postmortems)
+  - `test-engineer` → `haiku` (mechanical execution: run tests, parse output, classify failures)
+  - All remaining agents retain `sonnet` (balanced implementation and judgment)
+- Rationalised agent colour scheme into seven semantic clusters using all valid Claude Code colours:
+  - `red` — risk/incidents: `security-engineer`, `sre`
+  - `orange` — review/verify: `code-quality`, `test-engineer`
+  - `pink` — planning/docs: `architect`, `rfc`, `docs`
+  - `green` — build/ship: `backend`, `devops`
+  - `cyan` — data: `data-engineer`, `data-viz-specialist`
+  - `blue` — UI/UX: `frontend`, `ux-designer`
+  - `purple` — ML/AI: `ml-engineer`, `lrl-nlp-expert`
+
+### Fixed
+
+- Removed invalid `white` colour values (`architect`, `docs`, `rfc`) — not in the Claude Code supported palette
+- Removed invalid `magenta` colour values (`ml-engineer`, `lrl-nlp-expert`) — not in the Claude Code supported palette
+
 ## [2.2.1] - 2025-12-31
 
 ### Fixed
@@ -161,7 +183,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Eliminated per-agent protocol loading (N× reduction in redundant context loading)
 - Enabled automatic agent coordination through registry-based memory
 
-[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.1...HEAD
+[unreleased]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/ilyasibrahim/claude-agents-coordination/compare/v2.1.0...v2.1.1

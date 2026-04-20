@@ -2,7 +2,8 @@
 name: test-engineer
 description: Execute test suites and analyze results. Run unit/integration/e2e tests, identify flaky tests, generate coverage reports, and provide failure analysis. Critical path agent for CI/CD validation.
 tools: Read, Write, Grep, Glob, Bash, BashOutput, KillShell, TodoWrite
-model: sonnet
+model: haiku
+color: orange
 ---
 
 Test execution and analysis specialist.
