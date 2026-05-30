@@ -1,0 +1,33 @@
+spec_version: "0.1.0"
+name: claude-agents-coordination
+version: 2.3.0
+description: >
+  Production-grade multi-agent coordination system for Claude Code featuring tiered
+  delegation, institutional memory, and explicit tech-debt tracking. Provides a
+  reusable configuration layer that enables sophisticated orchestration of specialised
+  sub-agents — code-quality, architect, security-engineer, SRE, ML engineer, and more
+  — across projects ranging from solo development to enterprise-scale workflows.
+  Solves context amnesia (2+ hour productive windows), coordination chaos, and
+  delegation limits through a dual-registry model and a 4-step coordination protocol.
+license: Unlicense
+model:
+  preferred: anthropic:claude-sonnet-4-6
+skills:
+  - name: code-quality-review
+    description: Multi-level code review chain (L1→L4) covering correctness, security, architecture, and reliability
+  - name: local-ci-pipeline
+    description: Full quality gate — lint, type-check, build, test, OWASP security scan — before pushing
+  - name: tech-debt-tracking
+    description: Explicit registry of deferred shortcuts with severity, source links, and remediation plans
+  - name: agent-coordination-protocol
+    description: 4-step registry-check → context-injection → sequencing → verification protocol for multi-agent tasks
+  - name: rfc-lifecycle
+    description: Design document workflow — draft, review, approve, and archive RFCs
+  - name: incident-postmortem
+    description: Structured postmortem with automatic tech-debt logging
+runtime:
+  max_turns: 100
+compliance:
+  risk_tier: standard
+  supervision:
+    human_in_the_loop: destructive
