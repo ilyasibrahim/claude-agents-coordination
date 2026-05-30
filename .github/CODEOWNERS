@@ -1,0 +1,14 @@
+# Require maintainer review on every change.
+* @ilyasibrahim
+
+# Extra protection for root-level and meta files (common drive-by targets).
+/*.md @ilyasibrahim
+/LICENSE @ilyasibrahim
+/.github/ @ilyasibrahim
+
+# Guard files that unsolicited "agent manifest" PRs try to drop at the root.
+# These paths may not exist yet; the rule applies if such a file is ever added.
+/agent.yaml @ilyasibrahim
+/agent.yml @ilyasibrahim
+/SOUL.md @ilyasibrahim
+/AGENTS.md @ilyasibrahim

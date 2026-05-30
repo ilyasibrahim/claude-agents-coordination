@@ -1,0 +1,17 @@
+{
+  // Lenient markdownlint config tuned for this docs/config repository.
+  "globs": ["**/*.md"],
+  "ignores": ["**/node_modules/**", "**/.git/**"],
+  "config": {
+    "default": true,
+    "MD013": false,                    // line length
+    "MD033": false,                    // inline HTML (used in README/badges)
+    "MD041": false,                    // first line in file must be a heading
+    "MD024": { "siblings_only": true },// duplicate headings OK across sections
+    "MD026": false,                    // trailing punctuation in heading
+    "MD036": false,                    // emphasis used as heading
+    "MD040": false,                    // fenced code language
+    "MD029": false,                    // ordered list item prefix
+    "MD007": { "indent": 2 }
+  }
+}

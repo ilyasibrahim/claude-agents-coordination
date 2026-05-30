@@ -1,0 +1,44 @@
+name: Proposal (new agent / command / skill / protocol change)
+description: Propose a new capability or a change to the coordination protocol. Required before opening such a PR.
+labels: ["proposal"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you proposing?
+      options:
+        - New agent
+        - New command
+        - New skill
+        - Protocol / coordination change
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What gap does this fill? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design
+      description: Frontmatter/triggers, responsibilities, where it lives, model tier if it's an agent.
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: Maintenance & dependencies
+      description: Any external dependency? How stable/governed is it? What is the ongoing upkeep?
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: This is not an automated or promotional submission.
+          required: true
+        - label: I read CONTRIBUTING.md.
+          required: true

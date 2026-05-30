@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & ideas (Discussions)
+    url: https://github.com/ilyasibrahim/claude-agents-coordination/discussions
+    about: Ask questions, share coordination patterns, or float an idea before filing an issue.
+  - name: Report a security issue (private)
+    url: https://github.com/ilyasibrahim/claude-agents-coordination/security/advisories/new
+    about: Report a vulnerability privately. Please do not open a public issue.
